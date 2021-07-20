@@ -103,6 +103,60 @@ class BinTrie(BaseNode):
             key = char_hash(key)
         return self._children[key]
 
+    def parse_text(self, text):
+        """
+        前缀全切分
+        :param text:
+        :return:
+        """
+        length = len(text)
+        begin = 0
+        state = self
+        res = []
+        i=0
+
+        while i<length:
+            state = state.transition(text[i])
+            if state is not None:
+                value = state.get_value()
+                if value is not None:
+                    res.append(text[begin:i+1])
+            else:
+                i = begin
+                begin += 1
+                state = self
+            i += 1
+        return res
+
+    def parse_longest_text(self, text):
+        length = len(text)
+        res = []
+        i = 0
+        state = self
+
+        while i<length:
+            state = state.transition(text[i])
+            if state is not None:
+                value = state.get_value()
+                to = i+1
+                end = to
+                while to<length:
+                    state = state.transition(text[end])
+                    if state is not None:
+                        end += 1
+                    else:
+                        res.append(text[i:end])
+                        i = to
+                        break
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     trie = BinTrie()
     # add

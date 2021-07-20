@@ -7,9 +7,9 @@
 """
 import time
 from bin_trie import BinTrie
-from nlp.ch02.forward_segment import forward_segment
-from nlp.ch02.backward_segment import backward_segment
-from nlp.ch02.bidirectional_segment import bidirectional_segment
+from src.nlp.ch02.forward_segment import forward_segment
+from src.nlp.ch02.backward_segment import backward_segment
+from src.nlp.ch02.bidirectional_segment import bidirectional_segment
 
 from pyhanlp import *
 
@@ -54,6 +54,7 @@ def test_set(set_dic, pressure):
     print(f"set search cost: {time.time()-start}")
 
 
+
 if __name__ == '__main__':
     text = "江西鄱阳湖干枯，中国最大淡水湖变成大草原"
     pressure = 10000
@@ -71,3 +72,6 @@ if __name__ == '__main__':
     # evaluate_speed(forward_segment, text, bin_tree_dic, pressure)
     # evaluate_speed(backward_segment, text, bin_tree_dic, pressure)
     # evaluate_speed(bidirectional_segment, text, bin_tree_dic, pressure)
+
+    prefix_fully = bin_tree_dic.parse_text(text)
+    print(prefix_fully)

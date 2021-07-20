@@ -33,6 +33,14 @@ class BaseNode:
         else:
             return 0
 
+    def transition(self, text, begin=0):
+        cur = self
+        for i in range(begin, len(text)):
+            cur = cur.get_child(text[i])
+            if cur is None or cur.status == Status.UNDEFINED_0:
+                return None
+        return cur
+
 
 class Status(Enum):
     # 为序列值指定value值

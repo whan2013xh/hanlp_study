@@ -5,7 +5,6 @@
     Author     : Honghe
     Descreption: 
 """
-from base_node import BaseNode
 
 class ArrayTool:
     @staticmethod

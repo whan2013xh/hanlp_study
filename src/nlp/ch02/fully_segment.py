@@ -18,6 +18,7 @@ def fully_segment(text, dic):
     return word_list
 
 
+
 if __name__ == '__main__':
     dic = load_dictionary()
     word_list = fully_segment("北京大学", dic)
