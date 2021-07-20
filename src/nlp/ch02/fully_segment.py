@@ -5,7 +5,7 @@
     Author     : Honghe
     Descreption: 完全切分
 """
-from load_dictionary import load_dictionary
+from .load_dictionary import load_dictionary
 
 
 def fully_segment(text, dic):

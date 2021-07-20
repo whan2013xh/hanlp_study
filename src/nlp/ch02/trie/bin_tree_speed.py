@@ -6,7 +6,8 @@
     Descreption: 
 """
 import time
-from bin_trie import BinTrie
+from src.nlp.ch02.trie.bin_trie import BinTrie
+from src.nlp.ch02.fully_segment import fully_segment
 from src.nlp.ch02.forward_segment import forward_segment
 from src.nlp.ch02.backward_segment import backward_segment
 from src.nlp.ch02.bidirectional_segment import bidirectional_segment
@@ -29,6 +30,13 @@ def evaluate_speed(segment, text, dic, pressure):
     start = time.time()
     for i in range(pressure):
         segment(text, dic)
+    elapsed_time = time.time()-start
+    print("%s :%.2f 万字/秒" %(segment.__name__, len(text)*pressure/10000/elapsed_time))
+
+def evaluate_speed2(segment, text,  pressure):
+    start = time.time()
+    for i in range(pressure):
+        segment(text)
     elapsed_time = time.time()-start
     print("%s :%.2f 万字/秒" %(segment.__name__, len(text)*pressure/10000/elapsed_time))
 
@@ -68,10 +76,15 @@ if __name__ == '__main__':
     bin_tree_dic = BinTrie(dict_dic)
     print(f"build tree cost: {time.time()-start}")
     print(forward_segment(text, bin_tree_dic))
-
-    # evaluate_speed(forward_segment, text, bin_tree_dic, pressure)
+    evaluate_speed(fully_segment, text, bin_tree_dic, pressure)
+    evaluate_speed(forward_segment, text, bin_tree_dic, pressure)
     # evaluate_speed(backward_segment, text, bin_tree_dic, pressure)
     # evaluate_speed(bidirectional_segment, text, bin_tree_dic, pressure)
 
-    prefix_fully = bin_tree_dic.parse_text(text)
-    print(prefix_fully)
+    # prefix_fully = bin_tree_dic.parse_text(text)
+    # prefix_forward = bin_tree_dic.parse_longest_text(text)
+
+    evaluate_speed2(bin_tree_dic.parse_text, text, pressure)
+    evaluate_speed2(bin_tree_dic.parse_longest_text, text, pressure)
+    # print(prefix_fully)
+    # print(prefix_forward)

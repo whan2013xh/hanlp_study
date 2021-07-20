@@ -17,8 +17,9 @@ def char_hash(str):
     :param length:
     :return:
     """
-    return abs((hash(str)))%(10**5)
+    return abs((hash(str))) % (10 ** 5)
     # return JClass('java.lang.Character')(str).hashCode()
+
 
 class BinTrie(BaseNode):
     def __init__(self, map=None):
@@ -31,7 +32,7 @@ class BinTrie(BaseNode):
                 self.put(key, value)
 
     def put(self, key, value):
-        if len(key)==0:
+        if len(key) == 0:
             return
         branch = self
         for char in key[:-1]:
@@ -113,14 +114,14 @@ class BinTrie(BaseNode):
         begin = 0
         state = self
         res = []
-        i=0
+        i = 0
 
-        while i<length:
+        while i < length:
             state = state.transition(text[i])
             if state is not None:
                 value = state.get_value()
                 if value is not None:
-                    res.append(text[begin:i+1])
+                    res.append(text[begin:i + 1])
             else:
                 i = begin
                 begin += 1
@@ -129,32 +130,36 @@ class BinTrie(BaseNode):
         return res
 
     def parse_longest_text(self, text):
+        """
+        前缀正向最大匹配
+        :param text:
+        :return:
+        """
         length = len(text)
         res = []
         i = 0
-        state = self
 
-        while i<length:
-            state = state.transition(text[i])
+        while i < length:
+            state = self.transition(text[i])
             if state is not None:
                 value = state.get_value()
-                to = i+1
+                # end指针指向的是单词的结尾索引，不包含最后那个字
+                to = i + 1
                 end = to
-                while to<length:
-                    state = state.transition(text[end])
-                    if state is not None:
-                        end += 1
-                    else:
-                        res.append(text[i:end])
-                        i = to
+                while to < length:
+                    state = state.transition(text[to])
+                    if state is None:
                         break
+                    if state.get_value() is not None:
+                        value = state.get_value()
+                        end = to + 1
+                    to += 1
+                if value is not None:
+                    res.append(text[i:end])
+                    i = end - 1
 
-
-
-
-
-
-
+            i += 1
+        return res
 
 
 if __name__ == '__main__':
@@ -167,8 +172,8 @@ if __name__ == '__main__':
     # trie['入门'] = 'introduction'
     # print('自然' in trie)
 
-    #delete
+    # delete
     trie.remove('自然')
     print('自然' in trie)
-    #modify
+    # modify
     trie['自然语言处理'] = 'human language'
